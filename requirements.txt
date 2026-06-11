@@ -1,9 +1,10 @@
 langchain
-langchain-ollama
+langchain-groq
 langchain-chroma
 langchain-community
 langchain-text-splitters
 chromadb
 pypdf
 streamlit
-ollama
+sentence-transformers
+python-dotenv
