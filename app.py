@@ -1,21 +1,25 @@
 import streamlit as st
 import os
+import tempfile
 from dotenv import load_dotenv
-from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import tempfile
+from langchain_huggingface import HuggingFaceEmbeddings
 
 load_dotenv()
 
 st.title("Chat with your PDF 🤖")
 st.caption("Powered by Groq + LangChain + ChromaDB")
 
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
+@st.cache_resource
+def load_embeddings():
+    return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+embeddings = load_embeddings()
 llm = ChatGroq(model="llama-3.3-70b-versatile")
 
 prompt = ChatPromptTemplate.from_messages([
@@ -26,7 +30,6 @@ prompt = ChatPromptTemplate.from_messages([
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
-
 if "db" not in st.session_state:
     st.session_state.db = None
 
