@@ -40,7 +40,7 @@ if uploaded_file and st.session_state.db is None:
         pages = loader.load()
         splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         chunks = splitter.split_documents(pages)
-        st.session_state.db = Chroma.from_documents(chunks, embedding=embeddings)
+        st.session_state.db = Chroma.from_documents(chunks, embedding=embeddings, collection_name="pdf_collection")
     st.success(f"Done! {len(chunks)} chunks indexed. Ask away!")
 
 for message in st.session_state.chat_history:
