@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import tempfile
+import uuid
 from dotenv import load_dotenv
 from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
@@ -44,7 +45,9 @@ if uploaded_file and st.session_state.db is None:
         pages = loader.load()
         splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         chunks = splitter.split_documents(pages)
-        st.session_state.db = Chroma.from_documents(chunks, embedding=embeddings, collection_name="pdf_collection")
+        import uuid
+collection_name = f"pdf_{uuid.uuid4().hex[:8]}"
+st.session_state.db = Chroma.from_documents(chunks, embedding=embeddings, collection_name=collection_name)
     st.success(f"Done! {len(chunks)} chunks indexed. Ask away!")
 
 for message in st.session_state.chat_history:
