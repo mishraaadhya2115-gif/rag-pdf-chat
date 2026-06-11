@@ -28,6 +28,10 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 if "db" not in st.session_state:
     st.session_state.db = None
+if st.button("🗑️ Clear & Upload New PDF"):
+    st.session_state.chat_history = []
+    st.session_state.db = None
+    st.rerun()
 
 uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
 
