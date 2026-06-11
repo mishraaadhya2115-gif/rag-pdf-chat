@@ -1,5 +1,7 @@
 \# RAG PDF Chat 🤖
 
+🚀 Live Demo: https://rag-pdf-chat-forpwjjyoqi3uibzgprzft.streamlit.app
+
 
 
 An AI-powered chatbot that lets you have conversations with any PDF document.
