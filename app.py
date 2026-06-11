@@ -29,6 +29,7 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 if "db" not in st.session_state:
     st.session_state.db = None
+
 if st.button("🗑️ Clear & Upload New PDF"):
     st.session_state.chat_history = []
     st.session_state.db = None
@@ -45,9 +46,8 @@ if uploaded_file and st.session_state.db is None:
         pages = loader.load()
         splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         chunks = splitter.split_documents(pages)
-        import uuid
-collection_name = f"pdf_{uuid.uuid4().hex[:8]}"
-st.session_state.db = Chroma.from_documents(chunks, embedding=embeddings, collection_name=collection_name)
+        collection_name = f"pdf_{uuid.uuid4().hex[:8]}"
+        st.session_state.db = Chroma.from_documents(chunks, embedding=embeddings, collection_name=collection_name)
     st.success(f"Done! {len(chunks)} chunks indexed. Ask away!")
 
 for message in st.session_state.chat_history:
